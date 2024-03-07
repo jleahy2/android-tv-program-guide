@@ -24,13 +24,12 @@
     tools:ignore="Overdraw">
 
     <Button
-        android:id="@+id/programguide_jump_to_live"
+        android:id="@+id/programguide_focus_on_first_program_for_channel"
         style="@style/ProgramGuide.Button.JumpToLive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/programguide_filter_spacing"
-        android:text="@string/programguide_button_jump_to_live"
-        android:visibility="gone"
+        android:text="@string/programguide_button_focus_on_first_program_for_channel"
         app:layout_constraintBottom_toTopOf="@id/programguide_time_row"
         app:layout_constraintStart_toEndOf="@id/programguide_time_of_day_filter"
         app:layout_constraintTop_toTopOf="@id/programguide_top_margin" />

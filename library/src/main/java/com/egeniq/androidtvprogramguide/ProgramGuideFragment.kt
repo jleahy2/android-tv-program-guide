@@ -124,7 +124,7 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
     override val programGuideGrid get() = view?.findViewById<ProgramGuideGridView<T>>(R.id.programguide_grid)!!
     private val timeRow get() = view?.findViewById<ProgramGuideTimelineRow>(R.id.programguide_time_row)
     private val currentDateView get() = view?.findViewById<TextView>(R.id.programguide_current_date)
-    private val jumpToLive get() = view?.findViewById<TextView>(R.id.programguide_jump_to_live)
+    private val focusOnFirsttProgramForChannel get() = view?.findViewById<TextView>(R.id.programguide_focus_on_first_program_for_channel)
     private val currentTimeIndicator get() = view?.findViewById<FrameLayout>(R.id.programguide_current_time_indicator)
     private val timeOfDayFilter get() = view?.findViewById<View>(R.id.programguide_time_of_day_filter)
     private val dayFilter get() = view?.findViewById<View>(R.id.programguide_day_filter)
@@ -256,7 +256,6 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
                     dayFilter.findViewById<TextView>(R.id.programguide_filter_title).text =
                         dayFilterOptions[currentlySelectedFilterIndex].displayTitle
                     didScrollToBestProgramme = false
-                    setJumpToLiveButtonVisible(false)
                     currentDate =
                         LocalDate.parse(dayFilterOptions[position].value, FILTER_DATE_FORMATTER)
                     requestingProgramGuideFor(currentDate)
@@ -314,16 +313,6 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
                 .show()
         }
     }
-
-    /**
-     * The 'jump to live' button visibility can be set here.
-     * It should only be visible if the date is today, and the current scroll range does not show
-     * the current timestamp.
-     */
-    private fun setJumpToLiveButtonVisible(visible: Boolean) {
-        jumpToLive?.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
 
     /**
      * Sets the selected schedule internally.
@@ -408,8 +397,8 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
                 resources.getInteger(R.integer.programguide_max_recycled_view_pool_time_row_item)
             )
         }
-        val jumpToLive = view.findViewById<View>(R.id.programguide_jump_to_live)!!
-        jumpToLive.setOnClickListener { autoScrollToBestProgramme() }
+        val focusOnFirstProgramForChannel = view.findViewById<View>(R.id.programguide_focus_on_first_program_for_channel)!!
+        focusOnFirstProgramForChannel.setOnClickListener { autoScrollToBestProgramme() }
     }
 
     /**
@@ -503,7 +492,6 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
         ) - (timeRow?.currentScrollOffset ?: 0) - timelineAdjustmentPixels
         if (offset < 0) {
             currentTimeIndicator?.visibility = View.GONE
-            setJumpToLiveButtonVisible(currentState != State.Loading && (programGuideManager.getStartTime() <= now && now <= programGuideManager.getEndTime()))
         } else {
             if (currentTimeIndicatorWidth == 0) {
                 currentTimeIndicator?.measure(
@@ -518,7 +506,6 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
                 currentTimeIndicator?.translationX = -offset - currentTimeIndicatorWidth / 2f
             }
             currentTimeIndicator?.visibility = View.VISIBLE
-            setJumpToLiveButtonVisible(currentState != State.Loading && offset > gridWidth)
         }
     }
 
