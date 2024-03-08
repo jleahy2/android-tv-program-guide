@@ -115,6 +115,15 @@ class EpgFragment : ProgramGuideFragment<EpgFragment.SimpleProgram>() {
 
 
         Single.fromCallable {
+
+            val categories = listOf(
+                "Comedy",
+                "Entertainment",
+                "Kids",
+                "Movies",
+                "Sports"
+            )
+
             val channels = listOf(
                 SimpleChannel(
                     "npo-1",
